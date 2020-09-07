@@ -1,6 +1,6 @@
 # OpenCV Video Processing Example
 ## Introduction
-This is a simple example of using the OpenCV library to extract frames from one or more video files. While it can be run on a local machine, the primary intention is to run it in a Docker container as part of a simple Pachyderm pipeline tutorial. Included in this repo are the following files:
+This project contains a simple Python module that uses the OpenCV library to extract frames from one or more video files. While the Python code can be run on a local machine, the primary intention is to run it in a Docker container as part of a simple Pachyderm pipeline tutorial. Included in this repo are the following files:
 
 * **extract\_video_frames.py** - The Python module which does the actual work;
 * **Dockerfile** - The file used to build the Docker container image;
@@ -153,9 +153,19 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
  /Airplane-01.mp4/Airplane-01.mp4--frame-000230.jpg file 36.85KiB 
  ```
  You should see a total of 230 frames extracted from that video clip.
+ 
+9. We can also upload multiple video files with a single **put file** command, and all will get processed:
 
-## Running Locally
-If you do want to run this locally for whatever reason, you just need to specify the **-l** flag:
+ ```
+ cd videos
+ ls -1 | pachctl put file -i - videos@master
+ ```
+ The **-i -** flag tells the **put file** command to read input from stdin, which we're piping in from the **ls** command. The **-1** flag tells **ls** to display the files in a single column (i.e., one file per line), which is required for **put file** to process the list correctly. 
+ 
+ Note that if you are running a small local cluster (via Minikube, for example), it may take upwards of 10 minutes for the pipeline job to complete the processing of the 5 included video files.
+
+## Running The Python Code Locally
+If you do want to run **extract\_video_frames.py** locally for whatever reason, you just need to specify the **-l** flag:
  
  ```
  >> python ./extract_video_frames.py -l
