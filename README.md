@@ -47,7 +47,7 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
 
 1. First, we need to create the **videos** repo. Since the pipeline uses this repo as its input, we can't create the pipeline until the repo exists.
  
- `pachctl create repo videos`
+   `pachctl create repo videos`
   
 2. To confirm, we can run the command to list all repos:
  
