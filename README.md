@@ -48,7 +48,6 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
 1. First, we need to create the **videos** repo. Since the pipeline uses this repo as its input, we can't create the pipeline until the repo exists.
 
  `pachctl create repo videos`
- 
 2. To confirm, we can run the command to list all repos:
  
  ```
@@ -56,28 +55,24 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
  NAME   CREATED       SIZE (MASTER) DESCRIPTION
  videos 8 seconds ago 0B
  ```
-
 3. Next, let's deploy our pipeline using **pachctl**:
 
  `pachctl create pipeline  -f ./frame-extraction-pipeline.json`
- 
 4. To confirm, we can run the command to list all pipelines:
  
  ```
  >> pachctl list pipeline
  NAME             VERSION INPUT     CREATED        STATE / LAST JOB   DESCRIPTION                                                                                            
  frame-extraction 1       videos:/* 30 seconds ago running / starting A pipeline that uses the OpenCV library to extract frame-by-frame images from one or more video files. 
- ```
- 
+ ``` 
 5. Additionally, we can run the list repo command again to see that the output repo has been created automatically:
- 
+
  ```
  >> pachctl list repo
  NAME   CREATED       SIZE (MASTER) DESCRIPTION
  frame-extraction About a minute ago 0B            Output repo for pipeline frame-extraction. 
  videos           9 minutes ago      0B                                                       
  ```
-
 6. Before we go any farther, let's explore a bit to understand what we just did. When we deployed the pipeline, a container was spun up inside a pod on our Kubernetes cluster. We can use **kubectl** to list the pods:
 
  ```
@@ -104,14 +99,12 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
   Normal  Pulled     20m   kubelet, minikube  Successfully pulled image "dgeorg42/video-frame-extractor:v1.1"
   Normal  Pulled     20m   kubelet, minikube  Container image "pachyderm/pachd:1.10.5" already present on machine
  ```
- 
 7. Now let's actually trigger the pipeline by uploading one of the video files into the main branch of the **videos** repo:
 
  ```
  cd videos
  pachctl put file videos@master -f Airplane-01.mp4
  ```
- 
 8. We can validate the results in a couple of ways.  First, we can list the Pachyderm jobs to see that the **frame-extraction** pipeline ran successfully:
 
  ```
@@ -153,7 +146,6 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
  /Airplane-01.mp4/Airplane-01.mp4--frame-000230.jpg file 36.85KiB 
  ```
  You should see a total of 230 frames extracted from that video clip.
- 
 9. We can also upload multiple video files with a single **put file** command, and all will get processed:
 
  ```
