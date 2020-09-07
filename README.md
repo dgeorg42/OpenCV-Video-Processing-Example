@@ -1,5 +1,5 @@
-#OpenCV Video Processing Example
-##Introduction
+# OpenCV Video Processing Example
+## Introduction
 This is a simple example of using the OpenCV library to extract frames from one or more video files. While it can be run on a local machine, the primary intention is to run it in a Docker container as part of a simple Pachyderm pipeline tutorial. Included in this repo are the following files:
 
 * **extract\_video_frames.py** - The Python module which does the actual work;
@@ -7,14 +7,14 @@ This is a simple example of using the OpenCV library to extract frames from one 
 * **frame-extraction-pipeline.json** - The Pachyderm pipeline spec; and
 * **videos** - A directory containing 5 video clips from the classic 1980 film, *Airplane!*
 
-###Inputs
+### Inputs
 The video libraries in OpenCV are wrappers around **ffmpeg**, and hence OpenCV supports all of the video formats that are supported by **ffmpeg**. The following command will give you a full list of those formats:
 
 ```
 ffmpeg -formats
 ```
 
-###Outputs
+### Outputs
 The extracted video frames will be written out to a series of JPEG image files, named with the original filename as well as the frame number. Each video's images will be written to a different subdirectory of a base output directory. So, for example, if we were to process a video file called **HappyTimes.mp4**, the extracted frames would be written to files as follows:
 
 ```
@@ -27,23 +27,23 @@ The extracted video frames will be written out to a series of JPEG image files, 
 
 ```
 
-##Assumptions
+## Assumptions
 We will assume for this exercise that you are familiar with the basics of Docker, Kubernetes, and Pachyderm, and that you have access to a Pachyderm cluster. We'll also assume that you have pulled this repo down to your local machine.
 
-##Understanding the Setup
+## Understanding the Setup
 
-###Docker Image
+### Docker Image
 The Docker image used for this exercise has been pushed to Docker Hub as **dgeorg42/video\-frame-extractor:v1.1**
 
 If you examine the **Dockerfile**, you will see that the base image being used is **adnrv/opencv**. That image gives us Ubuntu 19.04, Python 3.7.3, and OpenCV 4.1.2-pre. Note that any image containing Python 3.x and OpenCV 4.x could be used as a base. Building on this base, we simply ensure that the **extract\_video_frames.py** file gets copied to the root directory.
 
-###Pachyderm Pipeline
+### Pachyderm Pipeline
 The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
 
 * Reading its input from a PFS repo called **videos**; and
 * Running the **extract\_video_frames.py** code on a container built from the **dgeorg42/video\-frame-extractor:v1.1** Docker image. 
 
-##Running on Pachyderm
+## Running on Pachyderm
 
 1. First, we need to create the **videos** repo. Since the pipeline uses this repo as its input, we can't create the pipeline until the repo exists.
 
@@ -154,7 +154,7 @@ The **frame-extraction-pipeline.json** file defines our Pachyderm pipeline as:
  ```
  You should see a total of 230 frames extracted from that video clip.
 
-##Running Locally
+## Running Locally
 If you do want to run this locally for whatever reason, you just need to specify the **-l** flag:
  
  ```
