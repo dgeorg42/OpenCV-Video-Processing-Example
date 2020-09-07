@@ -1,0 +1,18 @@
+# frame-extraction-pipeline.json
+{
+  "pipeline": {
+    "name": "frame-extraction"
+  },
+  "description": "A pipeline that uses the OpenCV library to extract frame-by-frame images from one or more video files.",
+  "input": {
+    "pfs": {
+      "repo": "videos",
+      "glob": "/*"
+    }
+  },
+  "transform": {
+    "cmd": [ "python", "./extract_video_frames.py" ],
+    "image": "dgeorg42/video-frame-extractor:v1.1"
+  },
+
+}
